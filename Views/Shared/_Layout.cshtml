@@ -19,6 +19,47 @@
     @RenderSection("Styles", required: false)
 </head>
 <body>
+    @if ((string)ViewData["Title"] == "Home")
+    {
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><strong>CryptoCommunity</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Acasa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Apply">Vreau sa aplic!</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="view intro-2">
+            <div class="full-bg-img">
+                <div class="mask rgba-indigo-slight flex-center">
+                    <div class="container">
+                        <div class="white-text text-center wow fadeInUp">
+                            <h2>This Navbar isn't fixed</h2>
+                            <h5>When you scroll down it will disappear</h5>
+                            <br>
+                            <p>Full page intro with background image will be always displayed in full screen mode, regardless of device </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    }else{ 
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -43,6 +84,8 @@
             </div>
         </nav>
     </header>
+    }
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

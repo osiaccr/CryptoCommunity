@@ -53,3 +53,41 @@
         flex: 0 1 99%
     }
 }
+
+/* Navbar styles */
+.intro-2 {
+    background: url("../images/background-home.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+.view {
+    margin-top: -56px;
+}
+
+.navbar {
+    padding-top: 0px;
+    background: none;
+    z-index: 1;
+    background-color: transparent;
+}
+
+.top-nav-collapse {
+    background-color: #4285F4;
+}
+
+@media only screen and (max-width: 768px) {
+    .view {
+        margin-top: -160px;
+    }
+}
+
+html,
+body,
+header,
+.view {
+    height: 100%;
+}
+
+.footer {
+    position: relative;
+}
