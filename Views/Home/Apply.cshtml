@@ -1,0 +1,80 @@
+﻿@model CryptoCommunity.Models.ApplyFormModel
+@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Aplica";
+}
+
+<h1>Aplica</h1>
+
+<h4>Consideri ca tu, sau cineva cineva cunoscut, trebuie sa apara pe lista noastra? Trimite o aplicatie iar noi o vom lua in considerare!</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+
+        @if (TempData["UserMessage"] != null)
+        {
+            var message = JsonConvert.DeserializeObject<AlertComponentModel>((string)TempData["UserMessage"]);
+            <div class="alert @message.CssClassName alert-dismissible fade show" role="alert">
+                @Html.Raw(message.Text)
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+    <form asp-action="OnApply" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="md-form">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="md-form">
+            <label asp-for="ShortDestription" class="control-label"></label>
+            <textarea asp-for="ShortDestription" class="form-control md-textarea"></textarea>
+            <span asp-validation-for="ShortDestription" class="text-danger"></span><br />
+            <small>O descriere scurta si concisa. Aceasta va aparea pe pagina principala.</small>
+        </div>
+        <div class="md-form">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" class="form-control md-textarea"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span><br />
+            <small>O descriere amanuntita si detaliata. Aceasta poate sa contina elmente de HTML pentru formatarea textului (&#x3C;small&#x3E;, &#x3C;bold&#x3E;,  &#x3C;br&#x3E;). </small>
+        </div>
+        <div class="md-form">
+            <label asp-for="SocialmediaList" class="control-label"></label>
+            <textarea asp-for="SocialmediaList" class="form-control md-textarea"></textarea>
+            <span asp-validation-for="SocialmediaList" class="text-danger"></span><br />
+            <small>O lista cu data de contact, precum social media, email, website-uri sau alte resurse relevante. Acestea trebuie sa fie separate prin virgula.</small>
+        </div>
+        <div class="md-form">
+            <label asp-for="ListingTypeId" class="control-label"></label>
+            <select asp-for="ListingTypeId" class="mdb-select" asp-items="ViewBag.ListingtypeId">
+                <option value="" disabled selected>...</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+            </div>
+            <div class="custom-file">
+                <input type="file" asp-for="File"  accept="image/x-png,image/jpeg" class="custom-file-input" id="inputGroupFile01"
+                       aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="inputGroupFile01" asp-for="File"></label>
+            </div>
+        </div>
+        <small>O image reprezentativa a postarii. Formaturile acceptate sunt png si jpeg.</small>
+        <button class="btn btn-info my-4 btn-block" type="submit">Aplica</button>
+    </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.mdb-select').materialSelect();
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

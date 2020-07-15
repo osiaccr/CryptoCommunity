@@ -1,0 +1,118 @@
+﻿@model CryptoCommunity.Models.IndexViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+    List<ListingType> listingTypes = Model.ListingTypes.ToList();
+    List<Listing> listings = Model.Listings.ToList();
+    List<Socialmedia> socialmedias = Model.Socialmedias.ToList();
+    List<SocialmediaType> socialmediaTypes = Model.SocialmediaTypes.ToList();
+}
+@section Styles {
+    <link href="/css/index.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+
+    @foreach (var listingType in listingTypes)
+    {
+        <!-- Section heading -->
+        <h3 class="font-weight-bold mb-4 pb-2">@listingType.Name</h3>
+        <!-- Section description -->
+        <p class="text-center w-responsive mx-auto mb-5">
+            @Html.Raw(listingType.Description)
+        </p>
+
+        <!-- Grid row -->
+        <div class="row">
+
+            @foreach (Listing listing in listings.FindAll(m => m.ListingTypeId == listingType.Id))
+            {
+                @if (!listing.IsVisible)
+                {
+                    continue;
+                }
+
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-12 mb-4" data-toggle="modal" data-target="#modalListingId_@listing.Id">
+                    <!--Card-->
+                    <div class="card testimonial-card">
+                        <!--Background color-->
+                        <div class="card-up" style="background:  @listingType.CardCoverColour"></div>
+                        <!--Avatar-->
+                        <div class="avatar mx-auto white">
+                            <img src="@listing.PhotoURL" class="rounded-circle img-fluid">
+                        </div>
+                        <div class="card-body">
+                            <!--Name-->
+                            <h4 class="font-weight-bold mb-4">@listing.Name</h4>
+                            <hr>
+                            <!--Quotation-->
+                            <p class="dark-grey-text mt-4">
+                                <i class="fas fa-quote-left pr-2"></i>@listing.ShortDestription
+                            </p>
+                        </div>
+                    </div>
+                    <!--Card-->
+                </div>
+                <!--Grid column-->
+            }
+        </div>
+        <!-- Grid row -->
+    }
+</div>
+
+<!-- Modals -->
+@foreach (Listing listing in listings)
+{
+    @if (!listing.IsVisible)
+    {
+        continue;
+    }
+    <div class="modal fade" id="modalListingId_@listing.Id" tabindex="-1" role="dialog" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-fluid" role="document">
+            <div class="modal-content" style="box-shadow: none; background: none; border: none;">
+                <div class="modal-body">
+                    <section class="p-md-5 mx-md-5 text-center text-lg-left grey z-depth-1"
+                             style="background: @listingTypes.Find(l => l.Id == listing.ListingTypeId).CardCoverColour !important">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-10">
+                                <div class="card">
+                                    <div class="card-body m-3">
+                                        <div class="row">
+                                            <div class="col-lg-4 d-flex mb-2 align-items-center">
+                                                <div class="avatar mx-4 w-100 white d-flex justify-content-center align-items-center">
+                                                    <img src="@listing.PhotoURL" class="rounded-circle img-fluid z-depth-1" alt="woman avatar">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <p class="text-muted font-weight-light mb-4">
+                                                    @Html.Raw(listing.Description)
+                                                </p>
+                                                <p class="font-weight-bold lead mb-2"><strong>@listing.Name</strong></p>
+                                                <p class="font-weight-bold text-muted mb-0">@listingTypes.Find(l => l.Id == listing.ListingTypeId).Name</p>
+                                                <div class="d-flex flex-row justify-content-center align-items-center">
+                                                    @foreach (Socialmedia sm in socialmedias.FindAll(s => s.ListingId == listing.Id))
+                                                    {
+                                                        <a href="@sm.Data" target="_blank" rel="noopener noreferrer" type="button" class="@socialmediaTypes.Find(s => s.Id == sm.SocialmediaTypeId).ButtonClass">
+                                                            <i class="@socialmediaTypes.Find(s => s.Id == sm.SocialmediaTypeId).IconClass"></i>
+                                                        </a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
