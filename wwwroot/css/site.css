@@ -69,7 +69,7 @@ body {
 /*
     Navbar style
 */
-nav {
+.navbar {
     background: linear-gradient(81.57deg, #51a1ff 0%, #1854e4 100%);
 }
 
